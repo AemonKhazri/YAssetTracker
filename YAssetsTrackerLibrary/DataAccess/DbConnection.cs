@@ -4,8 +4,8 @@ using MongoDB.Driver;
 
 namespace YAssetsTrackerLibrary.DataAccess
 {
-    public class DbConnection
-    {
+   public class DbConnection : IDbConnection
+   {
       private readonly IConfiguration _config;
       private readonly IMongoDatabase _db;
       private string _connectionId = "MongoDB";
