@@ -1,13 +1,10 @@
-﻿
-
-namespace YAssetsTrackerLibrary.DataAccess
+﻿namespace YAssetsTrackerLibrary.DataAccess
 {
    public class MongoUserData : IUserData
    {
       private readonly IMongoCollection<UserModel> _users;
 
-
-      public MongoUserData(IDbConnection db)
+      public MongoUserData(IDbConnection db) 
       {
          _users = db.UserCollection;
       }
