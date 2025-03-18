@@ -2,11 +2,11 @@
 
 namespace YAssetsTrackerLibrary.DataAccess
 {
-   class MongoAssetRequestData : IAssetRequestData
+   public class MongoAssetRequestData : IAssetRequestData
    {
       private readonly IMongoCollection<AssetRequestModel> _asset_requests;
       private readonly IMemoryCache _cache;
-      private const string cacheName = "AssetRequestData";
+      private const string CacheName = "AssetRequestData";
 
       public MongoAssetRequestData(IDbConnection db, IMemoryCache cache)
       {
@@ -17,7 +17,7 @@ namespace YAssetsTrackerLibrary.DataAccess
       public async Task<List<AssetRequestModel>> GetAllAssetRequests()
       {
 
-         var output = _cache.Get<List<AssetRequestModel>>(cacheName);
+         var output = _cache.Get<List<AssetRequestModel>>(CacheName);
 
 
          if (output is null)
@@ -25,7 +25,7 @@ namespace YAssetsTrackerLibrary.DataAccess
             var results = await _asset_requests.FindAsync(_ => true);
             output = results.ToList();
 
-            _cache.Set(cacheName, output, TimeSpan.FromDays(1));
+            _cache.Set(CacheName, output, TimeSpan.FromDays(1));
          }
          return output;
 

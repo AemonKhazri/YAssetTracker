@@ -8,6 +8,15 @@ public static class RegisterServices
       builder.Services.AddRazorComponents()
           .AddInteractiveServerComponents();
       builder.Services.AddMemoryCache();
+
+
+
+
+      builder.Services.AddSingleton<IDbConnection, DbConnection>();
+      builder.Services.AddSingleton<IAssetData, MongoAssetData>();
+      builder.Services.AddSingleton<IAssetRequestData, MongoAssetRequestData>();
+      builder.Services.AddSingleton<IUserData, MongoUserData>();
+
    }
 
 }
