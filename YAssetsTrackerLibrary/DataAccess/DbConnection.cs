@@ -31,6 +31,9 @@ namespace YAssetsTrackerLibrary.DataAccess
          AssetCollection = _db.GetCollection<AssetModel>(AssetCollectionName);
          AssetRequestCollection = _db.GetCollection<AssetRequestModel>(AssetRequestName);
 
+         
+
+
       }
    }
 }

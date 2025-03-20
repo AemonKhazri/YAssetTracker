@@ -8,6 +8,7 @@ namespace YAssetsTrackerLibrary.Models
       [BsonRepresentation(BsonType.ObjectId)]
        public string Id { get; set; }
       public string Title { get; set; }
+
       public BasicUserModel CreatedBy { get; set; }
       public AssetRequestModel Request { get; set; }
       public string Description { get; set; }

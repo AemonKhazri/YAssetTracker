@@ -12,7 +12,7 @@ namespace YAssetsTrackerLibrary.Models
       public double Value { get; set; } 
       public DateTime RequestDate { get; set; } = DateTime.UtcNow;
       //this is this author
-      public string CreatedBy { get; set; } 
+      public BasicUserModel CreatedBy { get; set; } 
 
 
    }

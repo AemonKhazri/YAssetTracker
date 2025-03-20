@@ -4,9 +4,13 @@ public static class RegisterServices
 {
    public static void ConfigureServices(this WebApplicationBuilder builder)
    {
-      
+
       builder.Services.AddRazorComponents()
           .AddInteractiveServerComponents();
+
+
+      builder.Services.AddRazorPages();
+      builder.Services.AddServerSideBlazor();
       builder.Services.AddMemoryCache();
 
 

@@ -1,0 +1,73 @@
+﻿@page "/SampleData"
+@inject IAssetData assetData
+@inject IAssetRequestData assetRequestData
+@inject IUserData userData
+
+<h3>Sample Data</h3>
+
+@if (assetsCreated)
+{
+    <h4>The assets have been created and assigned to the user</h4>
+}
+
+@code {
+    private bool assetsCreated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GenerateSampleData();
+    }
+
+    private async Task GenerateSampleData()
+    {
+        // Step 1: Create the user
+        UserModel user = new()
+            {
+                FirstName = "Ali",
+                LastName = "ben sesi",
+                EmailAddress = "AliSesi@Gmail.com",
+                UserName = "Sample AliBen",
+                ObjectIdentifier = "abc-584"
+            };
+        await userData.CreateUser(user);
+
+        // Step 2: Retrieve the user (with ID populated)
+        var foundUser = await userData.GetUserFromAuthentication("abc-584");
+
+        // Step 3: Check if asset requests exist, create them if not
+        var assetRequests = await assetRequestData.GetAllAssetRequests();
+
+        if (assetRequests == null || assetRequests.Count == 0)
+        {
+            var assetRequestList = new List<AssetRequestModel>
+            {
+                new() { Ritm = "Ritm1425", CoupaNumber = "CoupaNumber1452", Value = 1425.23 },
+                new() { Ritm = "Ritm0032", CoupaNumber = "CoupaNumber6900", Value = 8952.23 },
+                new() { Ritm = "Ritm2500", CoupaNumber = "CoupaNumber3690", Value = 6933.23 }
+            };
+
+            foreach (var assetReq in assetRequestList)
+            {
+                await assetRequestData.CreateAssetRequest(assetReq);
+            }
+
+            // Reload asset requests after creation
+            assetRequests = await assetRequestData.GetAllAssetRequests();
+        }
+
+        // Step 4: Create assets and assign CreatedBy and Request fields
+        var assetsToCreate = new List<AssetModel>
+        {
+            new() { Title = "Printer_LG 485", CreatedBy = new BasicUserModel(foundUser), Request = assetRequests[0] },
+            new() { Title = "Printer_Samsung 475", CreatedBy = new BasicUserModel(foundUser), Request = assetRequests[1] },
+            new() { Title = "Printer_M 478", CreatedBy = new BasicUserModel(foundUser), Request = assetRequests[2] }
+        };
+
+        foreach (var asset in assetsToCreate)
+        {
+            await assetData.CreateAsset(asset);
+        }
+
+        assetsCreated = true;
+    }
+}
